@@ -18,6 +18,23 @@ Zest adalah aplikasi mobile-first untuk latihan kosakata bahasa Jepang. Dua bagi
 
 Semua progres disimpan di perangkat dulu, baru dikirim ke server. Jadi belajar tetap bisa saat koneksi jelek, dan pindah perangkat tidak kehilangan riwayat.
 
+## 📸 Tampilan
+
+| Beranda | Kosakata | Flashcard |
+|:---:|:---:|:---:|
+| <img src="assets/image/01-beranda.jpeg" width="220"> | <img src="assets/image/02-kategori-kosakata.jpeg" width="220"> | <img src="assets/image/03-flashcard-depan.jpeg" width="220"> |
+| Ringkasan XP, streak, sesi hari ini | Daftar kata + pencarian | Sisi depan: kata & bacaan |
+
+| Jawab kartu | Video per bab | Pemutar video |
+|:---:|:---:|:---:|
+| <img src="assets/image/04-flashcard-belakang.jpeg" width="220"> | <img src="assets/image/05-kategori-video.jpeg" width="220"> | <img src="assets/image/06-video.jpeg" width="220"> |
+| Sisi belakang: arti & contoh | Playlist + filter tipe | Lanjut dari posisi terakhir |
+
+| Profil | Pengaturan |
+|:---:|:---:|
+| <img src="assets/image/07-profil.jpeg" width="220"> | <img src="assets/image/08-pengaturan.jpeg" width="220"> |
+| Statistik & sinkronisasi | Jatah kartu & pola ulangan |
+
 ## Fitur
 
 **Belajar**
@@ -93,7 +110,7 @@ zest/
 ├── backend/              # API serverless (Vercel)
 │   ├── api/              # handler endpoint
 │   └── lib/              # routes, validasi, JWKS, akses Turso
-├── assets/               # audio TTS + ikon
+├── assets/               # audio TTS, ikon, screenshot (image/)
 ├── test/                 # unit & widget test
 ├── tool/                 # build_web.sh, generate_tts.py, make_logo_icons.swift
 ├── docs/PRODUCT_DESIGN.md

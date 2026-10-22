@@ -1,0 +1,19 @@
+{
+  "name": "zest-api",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "serve": "node --env-file-if-exists=.env.local scripts/serve.js",
+    "migrate": "node --env-file-if-exists=.env.local scripts/migrate.js",
+    "smoke": "node --env-file-if-exists=.env.local scripts/smoke.js",
+    "test": "node --test test/"
+  },
+  "dependencies": {
+    "@libsql/client": "^0.15.15",
+    "jose": "^6.1.0"
+  }
+}

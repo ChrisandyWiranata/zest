@@ -33,6 +33,9 @@ migrate_working_dir/
 /build/
 /coverage/
 
+# Artefak golden mismatch (dihasilkan saat screenshot/golden test gagal)
+/test/failures/
+
 # Environment (template .env.example IKUT di-commit)
 .env
 .env.local

@@ -349,7 +349,7 @@ class _StatsGrid extends StatelessWidget {
         crossAxisCount: columns,
         mainAxisSpacing: 12,
         crossAxisSpacing: 12,
-        mainAxisExtent: 96,
+        mainAxisExtent: 112,
       ),
       itemCount: items.length,
       itemBuilder: (_, i) {

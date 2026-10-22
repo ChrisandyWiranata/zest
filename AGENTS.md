@@ -11,6 +11,8 @@ After any change, run in order:
 - `dart format lib test`
 - `flutter analyze`
 - `flutter test`  (fast — single-call runs the whole suite)
+- Screenshot docs (opsional, hanya kalau UI berubah):
+  `SCREENSHOTS=1 flutter test test/screenshot_test.dart --update-goldens`
 - Web build: `bash tool/build_web.sh` (jangan `flutter build web` polos — artefak
   butuh `vercel.json` tersalin dan `.env.local` dibuang)
 
@@ -30,6 +32,11 @@ No CI, no pre-commit, no linters beyond stock `flutter_lints`.
   exact copy (`'Hai, Ana!'`, `'0 ulangan · 2 kata baru'`, `'1 video'`). If UI copy changes, update tests.
 - Fakes `implements` real services (e.g. `_FakeVideoProgressStore`). Adding a method/getter to a service
   requires the same on its fake, or tests fail to compile.
+- `test/screenshot_test.dart` = artefak dokumentasi (PNG di `test/screenshots/`, dipakai README).
+  Golden ini di-resize `sips` → **tidak pernah** byte-identik dengan render baru, jadi suite-nya
+  `skip` kecuali env `SCREENSHOTS=1`. Regenerate: `SCREENSHOTS=1 flutter test test/screenshot_test.dart
+  --update-goldens`. Jangan hapus gate itu atau `flutter test` biasa akan merah.
+  Ukuran HP 390×844 @2x; navigasi harus di dalam callback `drive` (golden diambil sesudahnya).
 
 ## Env & backend (REST ke Node di Vercel, per-user shard)
 - **Tidak ada lagi akses Turso dari klien.** `API_URL`/`TOKEN` sudah dihapus dari `.env`.

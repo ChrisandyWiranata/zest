@@ -18,20 +18,6 @@ Zest adalah aplikasi mobile-first untuk latihan kosakata bahasa Jepang. Dua bagi
 
 Semua progres disimpan di perangkat dulu, baru dikirim ke server. Jadi belajar tetap bisa saat koneksi jelek, dan pindah perangkat tidak kehilangan riwayat.
 
-## 📸 Tampilan
-
-| Beranda | Flashcard | Kategori |
-|:---:|:---:|:---:|
-| <img src="test/screenshots/02-beranda.png" width="220"> | <img src="test/screenshots/04-flashcard-depan.png" width="220"> | <img src="test/screenshots/03-kategori-kosakata.png" width="220"> |
-| Ringkasan hari ini, XP, streak | Kartu kata + bacaan | Daftar kosakata + pencarian |
-
-| Jawab kartu | Video per bab | Profil |
-|:---:|:---:|:---:|
-| <img src="test/screenshots/05-flashcard-belakang.png" width="220"> | <img src="test/screenshots/06-kategori-video.png" width="220"> | <img src="test/screenshots/07-profil.png" width="220"> |
-| Arti, contoh kalimat | Playlist + filter tipe | Statistik & sinkronisasi |
-
-> Screenshot di atas bukan mockup — di-render dari widget asli lewat golden test (`test/screenshot_test.dart`). Regenerate dengan `SCREENSHOTS=1 flutter test test/screenshot_test.dart --update-goldens`.
-
 ## Fitur
 
 **Belajar**
@@ -108,7 +94,7 @@ zest/
 │   ├── api/              # handler endpoint
 │   └── lib/              # routes, validasi, JWKS, akses Turso
 ├── assets/               # audio TTS + ikon
-├── test/                 # unit, widget, dan screenshot test
+├── test/                 # unit & widget test
 ├── tool/                 # build_web.sh, generate_tts.py, make_logo_icons.swift
 ├── docs/PRODUCT_DESIGN.md
 └── AGENTS.md

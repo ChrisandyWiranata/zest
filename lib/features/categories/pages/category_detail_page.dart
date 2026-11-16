@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import '../../../core/layout/adaptive_layout.dart';
-import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/zest_colors.dart';
 import '../../../core/utils/day.dart';
 import '../../../core/widgets/error_view.dart';
 import '../../../core/widgets/loading_indicator.dart';
@@ -192,7 +192,7 @@ class _CategoryDetailPageState extends State<CategoryDetailPage>
                     Text(
                       '${widget.category.total} kata · ${_mastered.length} hafal',
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        color: AppColors.textMuted,
+                        color: context.colors.textMuted,
                       ),
                     ),
                   ],
@@ -204,7 +204,7 @@ class _CategoryDetailPageState extends State<CategoryDetailPage>
         const SizedBox(height: 10),
         TabBar(
           controller: _tab,
-          indicatorColor: AppColors.accent,
+          indicatorColor: context.colors.accent,
           indicatorWeight: 3,
           tabs: const [
             Tab(text: 'Kosakata'),

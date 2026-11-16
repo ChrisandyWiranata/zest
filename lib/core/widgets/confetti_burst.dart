@@ -2,7 +2,7 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 
-import '../theme/app_colors.dart';
+import '../theme/zest_colors.dart';
 
 /// Ledakan konfeti satu kali (finite). Diletakkan sebagai overlay (Stack)
 /// untuk momen perayaan. Diam (tidak menggambar) saat reduce-motion aktif.
@@ -48,12 +48,17 @@ class _BurstState extends State<_Burst> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    final c = context.colors;
     return IgnorePointer(
       child: AnimatedBuilder(
         animation: _ctrl,
         builder: (context, _) => CustomPaint(
           size: Size.infinite,
-          painter: _ConfettiPainter(t: _ctrl.value, count: widget.count),
+          painter: _ConfettiPainter(
+            t: _ctrl.value,
+            count: widget.count,
+            colors: [c.accent, c.accentSoft, c.hafal, c.text, c.textMuted],
+          ),
         ),
       ),
     );
@@ -61,18 +66,15 @@ class _BurstState extends State<_Burst> with SingleTickerProviderStateMixin {
 }
 
 class _ConfettiPainter extends CustomPainter {
-  _ConfettiPainter({required this.t, required this.count});
+  _ConfettiPainter({
+    required this.t,
+    required this.count,
+    required this.colors,
+  });
 
   final double t;
   final int count;
-
-  static const _colors = [
-    AppColors.accent,
-    AppColors.accentSoft,
-    AppColors.hafal,
-    AppColors.text,
-    AppColors.textMuted,
-  ];
+  final List<Color> colors;
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -95,7 +97,7 @@ class _ConfettiPainter extends CustomPainter {
       canvas.translate(x, y);
       canvas.rotate((s * math.pi * 2) + t * (4 + 8 * fr));
       final paint = Paint()
-        ..color = _colors[i % _colors.length].withValues(alpha: alpha);
+        ..color = colors[i % colors.length].withValues(alpha: alpha);
       canvas.drawRect(
         Rect.fromCenter(center: Offset.zero, width: 4 + 5.0 * fr, height: 3),
         paint,

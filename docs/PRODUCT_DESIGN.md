@@ -135,6 +135,13 @@ Posisi produk:
 3. **Keluar** → dialog konfirmasi → kembali ke layar masuk. Progres tetap aman
    di akun (untuk dipulihkan saat masuk lagi, termasuk di perangkat lain).
 
+### 3.6 Pengaturan
+
+1. Tab **Pengaturan** → batas flashcard, jatah kata baru per hari, pola ulangan
+   (SRS), dan suara (putar pengucapan otomatis).
+2. Bagian **Tampilan** → pilih **Sistem / Terang / Gelap**; tema langsung
+   berganti dan tersimpan di perangkat.
+
 ---
 
 ## 4. Bentuk Data (Database)
@@ -174,26 +181,35 @@ terisolasi.
 
 ### 5.1 Filosofi
 
-**Dark-minimalis.** Satu warna aksen hangat (merah torii) di atas nuansa abu
-kehitaman yang tenang; hijau/merah dipakai **semantik** (hafal vs belum), bukan
-dekorasi. Tidak ada gradien ramai atau bayangan berat — kesan bersih, fokus ke
-konten, nyaman dipakai malam hari.
+**Dark-minimalis** (identitas asli, tetap jadi **default**). Satu warna aksen
+hangat (merah torii) di atas nuansa abu kehitaman yang tenang; hijau/merah
+dipakai **semantik** (hafal vs belum), bukan dekorasi. Tidak ada gradien ramai
+atau bayangan berat — kesan bersih, fokus ke konten, nyaman dipakai malam hari.
+
+Aplikasi menyediakan **dua mode warna**: **Gelap** (di atas) dan **Terang** —
+keluarga warna yang sama di atas kertas hangat, dengan aksen torii digelapkan
+agar tetap lolos kontras WCAG AA di latar terang. User memilih
+**Sistem / Terang / Gelap** di halaman Pengaturan (§5.6); pilihan tersimpan di
+perangkat (bukan per akun), jadi berlaku juga di layar masuk dan saat ganti akun.
 
 ### 5.2 Palet warna
 
-| Token | Warna | Pemakaian |
-|---|---|---|
-| Level latar | `#0A0A0B` | latar paling gelap |
-| Level latar sekunder | `#121214` | bidang/groove di dalam elemen |
-| Permukaan kartu | `#1B1B1E` | kartu, input, chip |
-| Garis | `#2C2C30` | border, pemisah |
-| **Aksten utama** | `#E0574A` | tombol utama, ikon aktif, penekanan |
-| Aksten lembut | `#F08A7A` | bacaan furigana, aksen kecil |
-| Teks utama | `#F1F1EF` | konten utama |
-| Teks sekunder | `#A6A6AC` | label, keterangan |
-| Teks hint | `#86868E` | petunjuk/placeholder — **dinaikkan kontrasnya agar mudah dibaca (WCAG AA)** |
-| Hafal/sukses | `#6FCF97` | benar, hafal, selesai ditonton |
-| Belum/gagal | `#EB8D8B` | salah, belum, destruktif, error |
+| Token | Gelap | Terang | Pemakaian |
+|---|---|---|---|
+| Level latar | `#0A0A0B` | `#FAFAF9` | latar paling luar (scaffold) |
+| Level latar sekunder | `#121214` | `#F0F0EE` | bidang/groove di dalam elemen |
+| Permukaan kartu | `#1B1B1E` | `#FFFFFF` | kartu, input, chip |
+| Garis | `#2C2C30` | `#E4E4E0` | border, pemisah |
+| **Aksen utama** | `#E0574A` | `#C4422F` | tombol utama, ikon aktif, penekanan |
+| Aksen lembut | `#F08A7A` | `#A85A4A` | bacaan furigana, aksen kecil |
+| Teks utama | `#F1F1EF` | `#1A1A1C` | konten utama |
+| Teks sekunder | `#A6A6AC` | `#5B5B62` | label, keterangan |
+| Teks hint | `#86868E` | `#74747B` | petunjuk/placeholder — **dijaga lolos kontras WCAG AA di kedua mode** |
+| Hafal/sukses | `#6FCF97` | `#0F7F4C` | benar, hafal, selesai ditonton |
+| Belum/gagal | `#EB8D8B` | `#C0392B` | salah, belum, destruktif, error |
+
+Kedua palet adalah **satu sumber token** yang sama; tiap layar membaca token
+aktif, bukan warna hardcoded, sehingga pergantian tema serentak di seluruh UI.
 
 ### 5.3 Tipografi & gaya teks
 
@@ -205,8 +221,8 @@ konten, nyaman dipakai malam hari.
 
 ### 5.4 Pola komponen
 
-- **Kartu**: permukaan `#1B1B1E`, sudut membulat (16–18), garis 1px — hampir
-  semua panel memakai pola ini.
+- **Kartu**: permukaan token kartu (lihat §5.2), sudut membulat (16–18), garis
+  1px — hampir semua panel memakai pola ini.
 - **Pill/chip**: segmen kecil membulat (ikon 14 + label tebal) untuk statistik &
   tag fitur.
 - **Badge**: pill kecil berwarna aksen untuk "N ulangan tertunda".
@@ -235,11 +251,16 @@ konfeti berhenti, animasi disederhanakan).
 
 ### 5.6 Layout & aksesibilitas
 
-- Mobile-first: konten satu kolom, navigasi bawah 2 tab (**Beranda | Profil**).
+- Mobile-first: konten satu kolom, navigasi bawah 3 tab (**Beranda | Profil |
+  Pengaturan**).
 - Layar lebar (web/desktop): konten **dibatasi satu kolom** (lebar maks ~1000px)
   agar tidak mengambang.
-- Kontras teks dijaga lolos standar aksesibilitas (khususnya teks tersier).
+- Kontras teks dijaga lolos standar aksesibilitas di **kedua mode tema**
+  (khususnya teks tersier).
 - Haptic ringan pada jawaban flashcard (benar/salah) sebagai umpan balik.
+- **Pemilih tema** (bagian "Tampilan" di Pengaturan): tiga pilihan
+  Sistem/Terang/Gelap dengan penanda pilihan aktif; pilihan langsung berlaku
+  tanpa restart.
 
 ### 5.7 Keputusan desain yang disengaja
 
@@ -264,3 +285,4 @@ konfeti berhenti, animasi disederhanakan).
 | Ringkasan sesi | Hasil, XP, streak/level, konfeti, Selesai |
 | Pemutar video | Video + resume, judul/badge tipe, toggle "Sudah ditonton" |
 | Profil | Identitas, 6 statistik, status & tombol sinkron, Akun Google, Keluar |
+| Pengaturan | Batas flashcard, jatah kata baru, pola ulangan (SRS), suara, **Tampilan (Sistem/Terang/Gelap)** |

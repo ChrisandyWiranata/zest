@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../core/layout/adaptive_layout.dart';
-import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/zest_colors.dart';
 import '../../../core/widgets/error_view.dart';
 import '../../../core/widgets/loading_indicator.dart';
 import '../../../core/widgets/motion.dart';
@@ -84,11 +84,11 @@ class _ProfilePageState extends State<ProfilePage> {
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        backgroundColor: AppColors.card,
+        backgroundColor: context.colors.card,
         title: const Text('Keluar akun?'),
-        content: const Text(
+        content: Text(
           'Progres tetap aman tersimpan di akun. Kamu bisa masuk lagi kapan saja.',
-          style: TextStyle(color: AppColors.textMuted),
+          style: TextStyle(color: context.colors.textMuted),
         ),
         actions: [
           TextButton(
@@ -160,19 +160,21 @@ class _ProfileHeader extends StatelessWidget {
           width: 88,
           height: 88,
           decoration: BoxDecoration(
-            color: AppColors.accent.withValues(alpha: 0.14),
+            color: context.colors.accent.withValues(alpha: 0.14),
             shape: BoxShape.circle,
-            border: Border.all(color: AppColors.accent.withValues(alpha: 0.5)),
+            border: Border.all(
+              color: context.colors.accent.withValues(alpha: 0.5),
+            ),
           ),
           child: user.hasPhoto
               ? ClipOval(child: Image.network(user.photoUrl, fit: BoxFit.cover))
               : Center(
                   child: Text(
                     user.initial,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 34,
                       fontWeight: FontWeight.w900,
-                      color: AppColors.accent,
+                      color: context.colors.accent,
                     ),
                   ),
                 ),
@@ -190,7 +192,7 @@ class _ProfileHeader extends StatelessWidget {
           'Masuk lewat Google',
           style: Theme.of(
             context,
-          ).textTheme.bodySmall?.copyWith(color: AppColors.textMuted),
+          ).textTheme.bodySmall?.copyWith(color: context.colors.textMuted),
         ),
       ],
     );
@@ -212,36 +214,36 @@ class _SyncCard extends StatelessWidget {
         final (icon, color, label) = switch (status) {
           SyncStatus.syncing => (
             Icons.sync_rounded,
-            AppColors.accent,
+            context.colors.accent,
             'Menyinkronkan…',
           ),
           SyncStatus.error => (
             Icons.error_outline_rounded,
-            AppColors.belum,
+            context.colors.belum,
             'Gagal sinkron — coba lagi',
           ),
           SyncStatus.pending => (
             Icons.cloud_upload_outlined,
-            AppColors.textMuted,
+            context.colors.textMuted,
             'Menunggu sinkron…',
           ),
           SyncStatus.idle => (
             Icons.cloud_outlined,
-            AppColors.textMuted,
+            context.colors.textMuted,
             syncedAt == null ? 'Belum tersinkron' : _formatSync(syncedAt),
           ),
           SyncStatus.synced => (
             Icons.cloud_done_outlined,
-            AppColors.hafal,
+            context.colors.hafal,
             syncedAt == null ? 'Sinkron' : _formatSync(syncedAt),
           ),
         };
         return Container(
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
-            color: AppColors.card,
+            color: context.colors.card,
             borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: AppColors.border),
+            border: Border.all(color: context.colors.border),
           ),
           child: Column(
             children: [
@@ -282,7 +284,7 @@ class _SyncCard extends StatelessWidget {
                         Text(
                           label,
                           style: Theme.of(context).textTheme.bodySmall
-                              ?.copyWith(color: AppColors.textMuted),
+                              ?.copyWith(color: context.colors.textMuted),
                         ),
                       ],
                     ),
@@ -294,8 +296,8 @@ class _SyncCard extends StatelessWidget {
                     icon: const Icon(Icons.refresh_rounded, size: 18),
                     label: const Text('Sekarang'),
                     style: OutlinedButton.styleFrom(
-                      foregroundColor: AppColors.accent,
-                      side: const BorderSide(color: AppColors.border),
+                      foregroundColor: context.colors.accent,
+                      side: BorderSide(color: context.colors.border),
                       minimumSize: const Size(0, 40),
                       padding: const EdgeInsets.symmetric(horizontal: 14),
                     ),
@@ -311,8 +313,8 @@ class _SyncCard extends StatelessWidget {
                     icon: const Icon(Icons.cloud_sync_rounded, size: 18),
                     label: const Text('Sinkronkan progres'),
                     style: OutlinedButton.styleFrom(
-                      foregroundColor: AppColors.text,
-                      side: const BorderSide(color: AppColors.border),
+                      foregroundColor: context.colors.text,
+                      side: BorderSide(color: context.colors.border),
                       minimumSize: const Size(0, 40),
                     ),
                   ),
@@ -357,35 +359,35 @@ class _StatsGrid extends StatelessWidget {
         return Container(
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
-            color: AppColors.card,
+            color: context.colors.card,
             borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: AppColors.border),
+            border: Border.all(color: context.colors.border),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Icon(icon, size: 18, color: AppColors.accent),
+              Icon(icon, size: 18, color: context.colors.accent),
               const Spacer(),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   AnimatedCounter(
                     value: int.tryParse(value) ?? 0,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 22,
                       fontWeight: FontWeight.w900,
-                      color: AppColors.text,
+                      color: context.colors.text,
                       height: 1,
                     ),
                   ),
                   if (i == 3) ...[
                     const SizedBox(width: 3),
-                    const Text(
+                    Text(
                       'XP',
                       style: TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w800,
-                        color: AppColors.textHint,
+                        color: context.colors.textHint,
                       ),
                     ),
                   ],
@@ -394,9 +396,9 @@ class _StatsGrid extends StatelessWidget {
               const SizedBox(height: 4),
               Text(
                 label,
-                style: Theme.of(
-                  context,
-                ).textTheme.bodySmall?.copyWith(color: AppColors.textMuted),
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  color: context.colors.textMuted,
+                ),
               ),
             ],
           ),
@@ -415,19 +417,19 @@ class _AccountCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: AppColors.card,
+      color: context.colors.card,
       clipBehavior: Clip.antiAlias,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
-        side: const BorderSide(color: AppColors.border),
+        side: BorderSide(color: context.colors.border),
       ),
       child: Column(
         children: [
           ListTile(
-            leading: const Icon(
+            leading: Icon(
               Icons.alternate_email_rounded,
               size: 20,
-              color: AppColors.textMuted,
+              color: context.colors.textMuted,
             ),
             title: const Text(
               'Akun Google',
@@ -437,31 +439,28 @@ class _AccountCard extends StatelessWidget {
               user.email,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
-              style: const TextStyle(
-                fontSize: 12.5,
-                color: AppColors.textMuted,
-              ),
+              style: TextStyle(fontSize: 12.5, color: context.colors.textMuted),
             ),
           ),
           const Divider(height: 1, indent: 56),
           ListTile(
-            leading: const Icon(
+            leading: Icon(
               Icons.logout_rounded,
               size: 20,
-              color: AppColors.belum,
+              color: context.colors.belum,
             ),
-            title: const Text(
+            title: Text(
               'Keluar',
               style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w800,
-                color: AppColors.belum,
+                color: context.colors.belum,
               ),
             ),
-            trailing: const Icon(
+            trailing: Icon(
               Icons.chevron_right_rounded,
               size: 18,
-              color: AppColors.textHint,
+              color: context.colors.textHint,
             ),
             onTap: onLogout,
           ),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../theme/app_colors.dart';
+import '../theme/zest_colors.dart';
 
 class SearchField extends StatelessWidget {
   const SearchField({
@@ -17,23 +17,23 @@ class SearchField extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12),
       decoration: BoxDecoration(
-        color: AppColors.card,
+        color: context.colors.card,
         borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: AppColors.border),
+        border: Border.all(color: context.colors.border),
       ),
       child: TextField(
         controller: controller,
         onChanged: onChanged,
         textAlignVertical: TextAlignVertical.center,
-        style: const TextStyle(color: AppColors.text),
-        decoration: const InputDecoration(
+        style: TextStyle(color: context.colors.text),
+        decoration: InputDecoration(
           hintText: 'Cari kata, arti, atau bacaan...',
-          hintStyle: TextStyle(color: AppColors.textHint),
+          hintStyle: TextStyle(color: context.colors.textHint),
           prefixIcon: Padding(
             padding: EdgeInsets.only(right: 8),
             child: Icon(
               Icons.search_rounded,
-              color: AppColors.textMuted,
+              color: context.colors.textMuted,
               size: 20,
             ),
           ),

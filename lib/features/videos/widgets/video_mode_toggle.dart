@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/zest_colors.dart';
 import '../models/video_item.dart';
 
 /// Segmented control gabung/pisah tipe video (Gabung | Bunpou | Kosakata).
@@ -26,9 +26,9 @@ class VideoModeToggle extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(3),
       decoration: BoxDecoration(
-        color: AppColors.card,
+        color: context.colors.card,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: AppColors.border),
+        border: Border.all(color: context.colors.border),
       ),
       child: Row(
         children: [
@@ -64,14 +64,14 @@ class _VideoModePill extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = active ? AppColors.text : AppColors.textMuted;
+    final color = active ? context.colors.text : context.colors.textMuted;
     return GestureDetector(
       onTap: onTap,
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 160),
         padding: const EdgeInsets.symmetric(vertical: 7),
         decoration: BoxDecoration(
-          color: active ? AppColors.accent : Colors.transparent,
+          color: active ? context.colors.accent : Colors.transparent,
           borderRadius: BorderRadius.circular(9),
         ),
         alignment: Alignment.center,

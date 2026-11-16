@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 import '../../../core/layout/adaptive_layout.dart';
-import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/theme_controller.dart';
+import '../../../core/theme/zest_colors.dart';
 import '../../../core/widgets/card_surface.dart';
 import '../../tts/services/tts_service.dart';
 import '../services/settings_store.dart';
@@ -15,6 +16,7 @@ class SettingsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final themeController = ThemeScope.maybeOf(context);
     final content = ValueListenableBuilder<SettingsData>(
       valueListenable: settings,
       builder: (context, data, _) {
@@ -121,11 +123,11 @@ class SettingsPage extends StatelessWidget {
             const _SectionLabel('Suara'),
             const SizedBox(height: 8),
             Material(
-              color: AppColors.card,
+              color: context.colors.card,
               clipBehavior: Clip.antiAlias,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(18),
-                side: const BorderSide(color: AppColors.border),
+                side: BorderSide(color: context.colors.border),
               ),
               child: SwitchListTile(
                 value: data.autoSpeak,
@@ -133,7 +135,9 @@ class SettingsPage extends StatelessWidget {
                 secondary: Icon(
                   Icons.volume_up_rounded,
                   size: 20,
-                  color: tts == null ? AppColors.textHint : AppColors.textMuted,
+                  color: tts == null
+                      ? context.colors.textHint
+                      : context.colors.textMuted,
                 ),
                 title: const Text(
                   'Putar pengucapan otomatis',
@@ -143,15 +147,21 @@ class SettingsPage extends StatelessWidget {
                   tts == null
                       ? 'Fitur suara belum aktif.'
                       : 'Saat kartu dibalik ke jawaban.',
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 12.5,
-                    color: AppColors.textMuted,
+                    color: context.colors.textMuted,
                   ),
                 ),
-                activeThumbColor: AppColors.accent,
-                inactiveThumbColor: AppColors.textHint,
+                activeThumbColor: context.colors.accent,
+                inactiveThumbColor: context.colors.textHint,
               ),
             ),
+            if (themeController != null) ...[
+              const SizedBox(height: 20),
+              const _SectionLabel('Tampilan'),
+              const SizedBox(height: 8),
+              _ThemeSelector(controller: themeController),
+            ],
           ],
         );
       },
@@ -175,11 +185,129 @@ class _SectionLabel extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       label.toUpperCase(),
-      style: const TextStyle(
+      style: TextStyle(
         fontSize: 11,
         fontWeight: FontWeight.w900,
         letterSpacing: 1.4,
-        color: AppColors.textMuted,
+        color: context.colors.textMuted,
+      ),
+    );
+  }
+}
+
+/// Pemilih mode tampilan (Sistem/Terang/Gelap). Hanya tampil bila ada
+/// [ThemeScope] di atas (produksi); test tanpa scope menyembunyikannya.
+class _ThemeSelector extends StatelessWidget {
+  const _ThemeSelector({required this.controller});
+
+  final ThemeController controller;
+
+  @override
+  Widget build(BuildContext context) {
+    return ValueListenableBuilder<ThemeMode>(
+      valueListenable: controller,
+      builder: (context, mode, _) => CardSurface(
+        padding: EdgeInsets.zero,
+        radius: 18,
+        child: Column(
+          children: [
+            _ThemeOption(
+              optionKey: 'theme-system',
+              icon: Icons.brightness_auto_rounded,
+              label: 'Sistem',
+              subtitle: 'Ikut pengaturan perangkat.',
+              selected: mode == ThemeMode.system,
+              onTap: () => controller.setMode(ThemeMode.system),
+            ),
+            const Divider(height: 1, indent: 16, endIndent: 16),
+            _ThemeOption(
+              optionKey: 'theme-light',
+              icon: Icons.light_mode_rounded,
+              label: 'Terang',
+              subtitle: 'Latar terang sepanjang waktu.',
+              selected: mode == ThemeMode.light,
+              onTap: () => controller.setMode(ThemeMode.light),
+            ),
+            const Divider(height: 1, indent: 16, endIndent: 16),
+            _ThemeOption(
+              optionKey: 'theme-dark',
+              icon: Icons.dark_mode_rounded,
+              label: 'Gelap',
+              subtitle: 'Latar gelap sepanjang waktu.',
+              selected: mode == ThemeMode.dark,
+              onTap: () => controller.setMode(ThemeMode.dark),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _ThemeOption extends StatelessWidget {
+  const _ThemeOption({
+    required this.optionKey,
+    required this.icon,
+    required this.label,
+    required this.subtitle,
+    required this.selected,
+    required this.onTap,
+  });
+
+  final String optionKey;
+  final IconData icon;
+  final String label;
+  final String subtitle;
+  final bool selected;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.colors;
+    return InkWell(
+      key: Key(optionKey),
+      onTap: onTap,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        child: Row(
+          children: [
+            Icon(
+              icon,
+              size: 20,
+              color: selected ? colors.accent : colors.textMuted,
+            ),
+            const SizedBox(width: 14),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    label,
+                    style: const TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w800,
+                    ),
+                  ),
+                  const SizedBox(height: 2),
+                  Text(
+                    subtitle,
+                    style: Theme.of(
+                      context,
+                    ).textTheme.bodySmall?.copyWith(color: colors.textMuted),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(width: 8),
+            Icon(
+              selected
+                  ? Icons.radio_button_checked_rounded
+                  : Icons.radio_button_off_rounded,
+              size: 20,
+              color: selected ? colors.accent : colors.textHint,
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -232,9 +360,9 @@ class _StepperRow extends StatelessWidget {
                 const SizedBox(height: 2),
                 Text(
                   subtitle,
-                  style: Theme.of(
-                    context,
-                  ).textTheme.bodySmall?.copyWith(color: AppColors.textMuted),
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    color: context.colors.textMuted,
+                  ),
                 ),
               ],
             ),
@@ -251,10 +379,10 @@ class _StepperRow extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 12),
             child: Text(
               display,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w900,
-                color: AppColors.text,
+                color: context.colors.text,
               ),
             ),
           ),
@@ -281,9 +409,13 @@ class _StepButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final enabled = onTap != null;
     return Material(
-      color: AppColors.card,
+      color: context.colors.card,
       shape: CircleBorder(
-        side: BorderSide(color: enabled ? AppColors.border : AppColors.border),
+        side: BorderSide(
+          color: enabled
+              ? context.colors.border
+              : context.colors.border.withValues(alpha: 0.5),
+        ),
       ),
       clipBehavior: Clip.antiAlias,
       child: InkWell(
@@ -294,7 +426,7 @@ class _StepButton extends StatelessWidget {
           child: Icon(
             icon,
             size: 18,
-            color: enabled ? AppColors.accent : AppColors.textHint,
+            color: enabled ? context.colors.accent : context.colors.textHint,
           ),
         ),
       ),
@@ -340,7 +472,7 @@ class _FactorRow extends StatelessWidget {
                     Text(
                       subtitle,
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        color: AppColors.textMuted,
+                        color: context.colors.textMuted,
                       ),
                     ),
                   ],
@@ -348,10 +480,10 @@ class _FactorRow extends StatelessWidget {
               ),
               Text(
                 label,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w900,
-                  color: AppColors.accent,
+                  color: context.colors.accent,
                 ),
               ),
             ],
@@ -363,8 +495,8 @@ class _FactorRow extends StatelessWidget {
             max: kMaxIntervalFactor,
             divisions: 15,
             label: label,
-            activeColor: AppColors.accent,
-            inactiveColor: AppColors.border,
+            activeColor: context.colors.accent,
+            inactiveColor: context.colors.border,
             onChanged: onChanged,
           ),
         ],

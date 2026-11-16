@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import '../../../core/layout/adaptive_layout.dart';
-import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/zest_colors.dart';
 import '../../../core/widgets/ambient_particles.dart';
 import '../../../core/widgets/card_surface.dart';
 import '../../../core/widgets/motion.dart';
@@ -188,9 +188,9 @@ class _LoginPageState extends State<LoginPage> {
                     const SizedBox(height: 12),
                     Text(
                       _error!,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 12.5,
-                        color: AppColors.belum,
+                        color: context.colors.belum,
                       ),
                     ),
                   ],
@@ -198,9 +198,9 @@ class _LoginPageState extends State<LoginPage> {
                   Text(
                     'Masuk untuk menyinkronkan progres ke akunmu.',
                     textAlign: TextAlign.center,
-                    style: Theme.of(
-                      context,
-                    ).textTheme.bodySmall?.copyWith(color: AppColors.textMuted),
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                      color: context.colors.textMuted,
+                    ),
                   ),
                   const Spacer(flex: 3),
                 ],
@@ -247,7 +247,7 @@ class _LoginCard extends StatelessWidget {
               width: 64,
               height: 64,
               decoration: BoxDecoration(
-                color: AppColors.card,
+                color: context.colors.card,
                 borderRadius: BorderRadius.circular(18),
                 border: Border.all(color: Colors.black),
               ),
@@ -267,7 +267,7 @@ class _LoginCard extends StatelessWidget {
           Text(
             'Sinkronkan progres dan lanjutkan belajar di perangkat mana pun.',
             style: Theme.of(context).textTheme.bodySmall?.copyWith(
-              color: AppColors.textMuted,
+              color: context.colors.textMuted,
               height: 1.4,
             ),
           ),
@@ -278,7 +278,7 @@ class _LoginCard extends StatelessWidget {
             Text(
               error!,
               textAlign: TextAlign.center,
-              style: const TextStyle(fontSize: 12.5, color: AppColors.belum),
+              style: TextStyle(fontSize: 12.5, color: context.colors.belum),
             ),
           ],
           const SizedBox(height: 14),
@@ -287,7 +287,7 @@ class _LoginCard extends StatelessWidget {
             textAlign: TextAlign.center,
             style: Theme.of(
               context,
-            ).textTheme.bodySmall?.copyWith(color: AppColors.textMuted),
+            ).textTheme.bodySmall?.copyWith(color: context.colors.textMuted),
           ),
         ],
       ),
@@ -312,12 +312,12 @@ class _BrandHeader extends StatelessWidget {
             width: 68,
             height: 68,
             decoration: BoxDecoration(
-              color: AppColors.card,
+              color: context.colors.card,
               borderRadius: BorderRadius.circular(20),
               border: Border.all(color: Colors.black),
               boxShadow: [
                 BoxShadow(
-                  color: AppColors.accent.withValues(alpha: 0.18),
+                  color: context.colors.accent.withValues(alpha: 0.18),
                   blurRadius: 36,
                   offset: const Offset(0, 10),
                 ),
@@ -340,7 +340,7 @@ class _BrandHeader extends StatelessWidget {
             'すっきり · Belajar bahasa Jepang,\ntiap hari.',
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              color: AppColors.textMuted,
+              color: context.colors.textMuted,
               height: 1.5,
             ),
           ),
@@ -380,21 +380,21 @@ class _FeaturePill extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       decoration: BoxDecoration(
-        color: AppColors.card.withValues(alpha: 0.7),
+        color: context.colors.card.withValues(alpha: 0.7),
         borderRadius: BorderRadius.circular(999),
-        border: Border.all(color: AppColors.border),
+        border: Border.all(color: context.colors.border),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(icon, size: 14, color: AppColors.accent),
+          Icon(icon, size: 14, color: context.colors.accent),
           const SizedBox(width: 6),
           Text(
             label,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 12,
               fontWeight: FontWeight.w700,
-              color: AppColors.textMuted,
+              color: context.colors.textMuted,
             ),
           ),
         ],
@@ -425,13 +425,13 @@ class _GoogleButton extends StatelessWidget {
         ],
       ),
       child: busy
-          ? const Center(
+          ? Center(
               child: SizedBox(
                 width: 22,
                 height: 22,
                 child: CircularProgressIndicator(
                   strokeWidth: 2.5,
-                  color: AppColors.textMuted,
+                  color: context.colors.textMuted,
                 ),
               ),
             )

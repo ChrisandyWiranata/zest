@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../core/layout/adaptive_layout.dart';
-import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/zest_colors.dart';
 import '../../../core/utils/day.dart';
 import '../../../core/widgets/ambient_particles.dart';
 import '../../../core/widgets/error_view.dart';
@@ -210,9 +210,9 @@ class _Header extends StatelessWidget {
                   subtitle,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
-                  style: Theme.of(
-                    context,
-                  ).textTheme.bodySmall?.copyWith(color: AppColors.textMuted),
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    color: context.colors.textMuted,
+                  ),
                 ),
               ],
             ),
@@ -240,7 +240,7 @@ class _Avatar extends StatelessWidget {
           message: 'Profil',
           child: CircleAvatar(
             radius: 18,
-            backgroundColor: AppColors.accent.withValues(alpha: 0.16),
+            backgroundColor: context.colors.accent.withValues(alpha: 0.16),
             backgroundImage: (user?.hasPhoto ?? false)
                 ? NetworkImage(user!.photoUrl)
                 : null,
@@ -248,10 +248,10 @@ class _Avatar extends StatelessWidget {
                 ? null
                 : Text(
                     user?.initial ?? '?',
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontWeight: FontWeight.w800,
                       fontSize: 15,
-                      color: AppColors.accent,
+                      color: context.colors.accent,
                     ),
                   ),
           ),
@@ -278,9 +278,9 @@ class _XpCard extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(18),
         decoration: BoxDecoration(
-          color: AppColors.card,
+          color: context.colors.card,
           borderRadius: BorderRadius.circular(18),
-          border: Border.all(color: AppColors.border),
+          border: Border.all(color: context.colors.border),
         ),
         child: Row(
           children: [
@@ -292,19 +292,19 @@ class _XpCard extends StatelessWidget {
                 children: [
                   AnimatedCounter(
                     value: xp.total,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 30,
                       fontWeight: FontWeight.w900,
                       letterSpacing: 0.5,
-                      color: AppColors.text,
+                      color: context.colors.text,
                     ),
                   ),
                   const SizedBox(height: 2),
                   Text(
                     'XP total · $remaining XP lagi ke level $next',
-                    style: Theme.of(
-                      context,
-                    ).textTheme.bodySmall?.copyWith(color: AppColors.textMuted),
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                      color: context.colors.textMuted,
+                    ),
                   ),
                   const SizedBox(height: 10),
                   _Pill(
@@ -343,8 +343,8 @@ class _LevelRing extends StatelessWidget {
               value: fraction,
               strokeWidth: 6,
               strokeCap: StrokeCap.round,
-              backgroundColor: AppColors.bg,
-              valueColor: const AlwaysStoppedAnimation(AppColors.accent),
+              backgroundColor: context.colors.bg,
+              valueColor: AlwaysStoppedAnimation(context.colors.accent),
             ),
           ),
           Column(
@@ -352,19 +352,19 @@ class _LevelRing extends StatelessWidget {
             children: [
               Text(
                 '$level',
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.w900,
-                  color: AppColors.text,
+                  color: context.colors.text,
                   height: 1,
                 ),
               ),
-              const Text(
+              Text(
                 'Lv',
                 style: TextStyle(
                   fontSize: 10,
                   fontWeight: FontWeight.w700,
-                  color: AppColors.textHint,
+                  color: context.colors.textHint,
                 ),
               ),
             ],
@@ -391,13 +391,13 @@ class _SessionCard extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           color: done
-              ? AppColors.hafal.withValues(alpha: 0.08)
-              : AppColors.card,
+              ? context.colors.hafal.withValues(alpha: 0.08)
+              : context.colors.card,
           borderRadius: BorderRadius.circular(18),
           border: Border.all(
             color: done
-                ? AppColors.hafal.withValues(alpha: 0.4)
-                : AppColors.border,
+                ? context.colors.hafal.withValues(alpha: 0.4)
+                : context.colors.border,
           ),
         ),
         child: Row(
@@ -406,16 +406,15 @@ class _SessionCard extends StatelessWidget {
               width: 46,
               height: 46,
               decoration: BoxDecoration(
-                color: (done ? AppColors.hafal : AppColors.accent).withValues(
-                  alpha: 0.12,
-                ),
+                color: (done ? context.colors.hafal : context.colors.accent)
+                    .withValues(alpha: 0.12),
                 borderRadius: BorderRadius.circular(14),
               ),
               alignment: Alignment.center,
               child: Icon(
                 done ? Icons.check_circle_rounded : Icons.style_rounded,
                 size: 24,
-                color: done ? AppColors.hafal : AppColors.accent,
+                color: done ? context.colors.hafal : context.colors.accent,
               ),
             ),
             const SizedBox(width: 14),
@@ -435,9 +434,9 @@ class _SessionCard extends StatelessWidget {
                     done
                         ? 'Tidak ada ulangan. Kamu bebas hari ini.'
                         : '${data.totalDue} ulangan · ${data.totalFresh} kata baru',
-                    style: Theme.of(
-                      context,
-                    ).textTheme.bodySmall?.copyWith(color: AppColors.textMuted),
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                      color: context.colors.textMuted,
+                    ),
                   ),
                 ],
               ),
@@ -498,13 +497,13 @@ class _Pill extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = highlight ? AppColors.accent : AppColors.textMuted;
+    final color = highlight ? context.colors.accent : context.colors.textMuted;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       decoration: BoxDecoration(
-        color: AppColors.card,
+        color: context.colors.card,
         borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: AppColors.border),
+        border: Border.all(color: context.colors.border),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -551,9 +550,9 @@ class _CategoryCard extends StatelessWidget {
           child: Container(
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
-              color: AppColors.card,
+              color: context.colors.card,
               borderRadius: BorderRadius.circular(18),
-              border: Border.all(color: AppColors.border),
+              border: Border.all(color: context.colors.border),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -571,9 +570,9 @@ class _CategoryCard extends StatelessWidget {
                 const SizedBox(height: 4),
                 Text(
                   '$total kata',
-                  style: Theme.of(
-                    context,
-                  ).textTheme.bodySmall?.copyWith(color: AppColors.textMuted),
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    color: context.colors.textMuted,
+                  ),
                 ),
                 const SizedBox(height: 10),
                 ClipRRect(
@@ -581,8 +580,8 @@ class _CategoryCard extends StatelessWidget {
                   child: LinearProgressIndicator(
                     value: ratio,
                     minHeight: 4,
-                    backgroundColor: AppColors.bg,
-                    valueColor: const AlwaysStoppedAnimation(AppColors.accent),
+                    backgroundColor: context.colors.bg,
+                    valueColor: AlwaysStoppedAnimation(context.colors.accent),
                   ),
                 ),
                 const SizedBox(height: 5),
@@ -593,10 +592,10 @@ class _CategoryCard extends StatelessWidget {
                         '${item.mastered}/$total hafal',
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 11,
                           fontWeight: FontWeight.w700,
-                          color: AppColors.textHint,
+                          color: context.colors.textHint,
                         ),
                       ),
                     ),
@@ -608,15 +607,15 @@ class _CategoryCard extends StatelessWidget {
                           vertical: 3,
                         ),
                         decoration: BoxDecoration(
-                          color: AppColors.accent.withValues(alpha: 0.14),
+                          color: context.colors.accent.withValues(alpha: 0.14),
                           borderRadius: BorderRadius.circular(999),
                         ),
                         child: Text(
                           '${item.due} ulangan',
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 10.5,
                             fontWeight: FontWeight.w800,
-                            color: AppColors.accent,
+                            color: context.colors.accent,
                           ),
                         ),
                       )
@@ -626,7 +625,7 @@ class _CategoryCard extends StatelessWidget {
                             ? Icons.flag_rounded
                             : Icons.tag_rounded,
                         size: 15,
-                        color: AppColors.accent,
+                        color: context.colors.accent,
                       ),
                   ],
                 ),
@@ -698,7 +697,7 @@ class _SkelBox extends StatelessWidget {
       width: width ?? double.infinity,
       height: height,
       decoration: BoxDecoration(
-        color: AppColors.card,
+        color: context.colors.card,
         borderRadius: BorderRadius.circular(18),
       ),
     );

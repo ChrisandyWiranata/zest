@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../features/tts/services/tts_service.dart';
-import '../theme/app_colors.dart';
+import '../theme/zest_colors.dart';
 import 'motion.dart';
 
 /// Tombol speaker kecil untuk memutar pengucapan Jepang via [TtsService].
@@ -57,24 +57,24 @@ class _SpeakButtonState extends State<SpeakButton> {
               width: 34,
               height: 34,
               decoration: BoxDecoration(
-                color: AppColors.card,
+                color: context.colors.card,
                 shape: BoxShape.circle,
-                border: Border.all(color: AppColors.border),
+                border: Border.all(color: context.colors.border),
               ),
               alignment: Alignment.center,
               child: _busy
-                  ? const SizedBox(
+                  ? SizedBox(
                       width: 14,
                       height: 14,
                       child: CircularProgressIndicator(
                         strokeWidth: 2,
-                        color: AppColors.accent,
+                        color: context.colors.accent,
                       ),
                     )
-                  : const Icon(
+                  : Icon(
                       Icons.volume_up_rounded,
                       size: 17,
-                      color: AppColors.textMuted,
+                      color: context.colors.textMuted,
                     ),
             ),
           ),

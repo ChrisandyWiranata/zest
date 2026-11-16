@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../core/layout/adaptive_layout.dart';
-import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/zest_colors.dart';
 import '../../../core/widgets/card_surface.dart';
 import '../../../core/widgets/error_view.dart';
 import '../../../core/widgets/loading_indicator.dart';
@@ -145,13 +145,13 @@ class _VideoPlaylistViewState extends State<VideoPlaylistView> {
                 section.bab,
                 style: Theme.of(context).textTheme.titleSmall?.copyWith(
                   fontWeight: FontWeight.w800,
-                  color: AppColors.textMuted,
+                  color: context.colors.textMuted,
                 ),
               ),
             ),
             const SizedBox(height: 2),
             for (var j = 0; j < section.videos.length; j++) ...[
-              if (j > 0) const Divider(color: AppColors.border, height: 1),
+              if (j > 0) Divider(color: context.colors.border, height: 1),
               _VideoRow(
                 video: section.videos[j],
                 watched: watched.contains(section.videos[j].progressKey),
@@ -192,7 +192,7 @@ class _VideoPlaylistViewState extends State<VideoPlaylistView> {
                 section.bab,
                 style: Theme.of(context).textTheme.titleSmall?.copyWith(
                   fontWeight: FontWeight.w800,
-                  color: AppColors.textMuted,
+                  color: context.colors.textMuted,
                 ),
               ),
             ),
@@ -277,15 +277,15 @@ class _VideoRow extends StatelessWidget {
                 height: 38,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: AppColors.accent.withValues(alpha: 0.14),
+                  color: context.colors.accent.withValues(alpha: 0.14),
                   border: Border.all(
-                    color: AppColors.accent.withValues(alpha: 0.35),
+                    color: context.colors.accent.withValues(alpha: 0.35),
                   ),
                 ),
                 alignment: Alignment.center,
-                child: const Icon(
+                child: Icon(
                   Icons.play_arrow_rounded,
-                  color: AppColors.accent,
+                  color: context.colors.accent,
                   size: 22,
                 ),
               ),
@@ -314,24 +314,24 @@ class _VideoRow extends StatelessWidget {
               ),
               const SizedBox(width: 8),
               if (watched)
-                const Icon(
+                Icon(
                   Icons.check_circle_rounded,
                   size: 18,
-                  color: AppColors.hafal,
+                  color: context.colors.hafal,
                 )
               else if (resumed)
-                const Tooltip(
+                Tooltip(
                   message: 'Lanjut menonton',
                   child: Icon(
                     Icons.play_circle_outline_rounded,
                     size: 18,
-                    color: AppColors.accent,
+                    color: context.colors.accent,
                   ),
                 ),
-              const Icon(
+              Icon(
                 Icons.chevron_right_rounded,
                 size: 18,
-                color: AppColors.textHint,
+                color: context.colors.textHint,
               ),
             ],
           ),
@@ -349,7 +349,7 @@ class _TypeBadge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = grammar ? AppColors.accent : AppColors.textMuted;
+    final color = grammar ? context.colors.accent : context.colors.textMuted;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
       decoration: BoxDecoration(
@@ -397,15 +397,15 @@ class _VideoCard extends StatelessWidget {
             height: 40,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: AppColors.accent.withValues(alpha: 0.14),
+              color: context.colors.accent.withValues(alpha: 0.14),
               border: Border.all(
-                color: AppColors.accent.withValues(alpha: 0.35),
+                color: context.colors.accent.withValues(alpha: 0.35),
               ),
             ),
             alignment: Alignment.center,
-            child: const Icon(
+            child: Icon(
               Icons.play_arrow_rounded,
-              color: AppColors.accent,
+              color: context.colors.accent,
               size: 24,
             ),
           ),
@@ -433,16 +433,16 @@ class _VideoCard extends StatelessWidget {
           ),
           const SizedBox(width: 8),
           if (watched)
-            const Icon(
+            Icon(
               Icons.check_circle_rounded,
               size: 18,
-              color: AppColors.hafal,
+              color: context.colors.hafal,
             )
           else if (resumed)
-            const Icon(
+            Icon(
               Icons.play_circle_outline_rounded,
               size: 18,
-              color: AppColors.accent,
+              color: context.colors.accent,
             ),
         ],
       ),

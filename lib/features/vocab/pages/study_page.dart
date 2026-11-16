@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import '../../../core/layout/adaptive_layout.dart';
-import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/zest_colors.dart';
 import '../../../core/utils/day.dart';
 import '../../../core/widgets/card_surface.dart';
 import '../../../core/widgets/confetti_burst.dart';
@@ -166,7 +166,7 @@ class _StudyPageState extends State<StudyPage>
                       child: Text(
                         '${_pos + 1} / ${_queue.length}',
                         style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          color: AppColors.textMuted,
+                          color: context.colors.textMuted,
                           fontWeight: FontWeight.w800,
                           letterSpacing: 0.5,
                         ),
@@ -179,26 +179,26 @@ class _StudyPageState extends State<StudyPage>
                       vertical: 6,
                     ),
                     decoration: BoxDecoration(
-                      color: AppColors.card,
+                      color: context.colors.card,
                       borderRadius: BorderRadius.circular(10),
-                      border: Border.all(color: AppColors.border),
+                      border: Border.all(color: context.colors.border),
                     ),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        const Icon(
+                        Icon(
                           Icons.bolt_rounded,
                           size: 14,
-                          color: AppColors.accent,
+                          color: context.colors.accent,
                         ),
                         const SizedBox(width: 4),
                         AnimatedCounter(
                           value: _sessionXp,
                           duration: const Duration(milliseconds: 320),
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 12.5,
                             fontWeight: FontWeight.w800,
-                            color: AppColors.accent,
+                            color: context.colors.accent,
                           ),
                         ),
                       ],
@@ -227,7 +227,7 @@ class _StudyPageState extends State<StudyPage>
                                 : 0.0;
                             final border = bad
                                 ? Color.lerp(
-                                    AppColors.belum,
+                                    context.colors.belum,
                                     Colors.transparent,
                                     v.clamp(0.0, 1.0),
                                   )
@@ -334,10 +334,10 @@ class _StudyPageState extends State<StudyPage>
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Icon(
+                Icon(
                   Icons.check_rounded,
                   size: 44,
-                  color: AppColors.accent,
+                  color: context.colors.accent,
                 ),
                 const SizedBox(height: 12),
                 _PopTitle(
@@ -350,7 +350,7 @@ class _StudyPageState extends State<StudyPage>
                 const SizedBox(height: 6),
                 Text(
                   '${_queue.length} kartu · $_good hafal',
-                  style: const TextStyle(color: AppColors.textMuted),
+                  style: TextStyle(color: context.colors.textMuted),
                 ),
                 const SizedBox(height: 4),
                 TweenAnimationBuilder<double>(
@@ -359,8 +359,8 @@ class _StudyPageState extends State<StudyPage>
                   curve: Curves.easeOutCubic,
                   builder: (context, v, _) => Text(
                     '+${v.round()} XP',
-                    style: const TextStyle(
-                      color: AppColors.accent,
+                    style: TextStyle(
+                      color: context.colors.accent,
                       fontWeight: FontWeight.w800,
                       fontSize: 18,
                     ),
@@ -383,9 +383,9 @@ class _StudyPageState extends State<StudyPage>
                           pulse: info.streak,
                           child: Text(
                             'Streak 🔥 ${info.streak} hari · Lv ${info.level}',
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontSize: 13,
-                              color: AppColors.textMuted,
+                              color: context.colors.textMuted,
                               fontWeight: FontWeight.w700,
                             ),
                           ),
@@ -395,9 +395,9 @@ class _StudyPageState extends State<StudyPage>
                             padding: const EdgeInsets.only(top: 6),
                             child: Text(
                               'Lv ${info.level} tercapai!',
-                              style: const TextStyle(
+                              style: TextStyle(
                                 fontSize: 14,
-                                color: AppColors.accent,
+                                color: context.colors.accent,
                                 fontWeight: FontWeight.w900,
                               ),
                             ),
@@ -438,13 +438,13 @@ class _VerdictPop extends StatelessWidget {
           height: 64,
           decoration: BoxDecoration(
             shape: BoxShape.circle,
-            color: AppColors.hafal.withValues(alpha: 0.16),
-            border: Border.all(color: AppColors.hafal, width: 2),
+            color: context.colors.hafal.withValues(alpha: 0.16),
+            border: Border.all(color: context.colors.hafal, width: 2),
           ),
           alignment: Alignment.center,
-          child: const Icon(
+          child: Icon(
             Icons.check_rounded,
-            color: AppColors.hafal,
+            color: context.colors.hafal,
             size: 34,
           ),
         ),
@@ -469,12 +469,11 @@ class _FloatChip extends StatelessWidget {
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
           decoration: BoxDecoration(
-            color: AppColors.card,
+            color: context.colors.card,
             borderRadius: BorderRadius.circular(999),
             border: Border.all(
-              color: (good ? AppColors.hafal : AppColors.belum).withValues(
-                alpha: 0.4,
-              ),
+              color: (good ? context.colors.hafal : context.colors.belum)
+                  .withValues(alpha: 0.4),
             ),
           ),
           child: Text(
@@ -482,7 +481,7 @@ class _FloatChip extends StatelessWidget {
             style: TextStyle(
               fontSize: 13,
               fontWeight: FontWeight.w900,
-              color: good ? AppColors.hafal : AppColors.belum,
+              color: good ? context.colors.hafal : context.colors.belum,
             ),
           ),
         ),
@@ -530,9 +529,9 @@ class _VerdictButton extends StatelessWidget {
       child: Container(
         height: double.infinity,
         decoration: BoxDecoration(
-          color: good ? AppColors.accent : Colors.transparent,
+          color: good ? context.colors.accent : Colors.transparent,
           borderRadius: BorderRadius.circular(16),
-          border: good ? null : Border.all(color: AppColors.border),
+          border: good ? null : Border.all(color: context.colors.border),
         ),
         alignment: Alignment.center,
         child: Text(
@@ -540,7 +539,7 @@ class _VerdictButton extends StatelessWidget {
           style: TextStyle(
             fontSize: 15,
             fontWeight: FontWeight.w800,
-            color: good ? Colors.white : AppColors.textMuted,
+            color: good ? Colors.white : context.colors.textMuted,
           ),
         ),
       ),
@@ -674,9 +673,9 @@ class _CardFront extends StatelessWidget {
                   Text(
                     word.read,
                     textAlign: TextAlign.center,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 18,
-                      color: AppColors.accentSoft,
+                      color: context.colors.accentSoft,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
@@ -688,15 +687,15 @@ class _CardFront extends StatelessWidget {
               ),
             ],
             const Spacer(),
-            const Icon(
+            Icon(
               Icons.touch_app_rounded,
               size: 20,
-              color: AppColors.textHint,
+              color: context.colors.textHint,
             ),
             const SizedBox(height: 4),
-            const Text(
+            Text(
               'Ketuk untuk membalik',
-              style: TextStyle(fontSize: 12, color: AppColors.textHint),
+              style: TextStyle(fontSize: 12, color: context.colors.textHint),
             ),
           ],
         ),
@@ -724,10 +723,10 @@ class _CardBack extends StatelessWidget {
                 if (word.word.isNotEmpty)
                   Text(
                     word.word,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 34,
                       fontWeight: FontWeight.w700,
-                      color: AppColors.textMuted,
+                      color: context.colors.textMuted,
                     ),
                   ),
                 if (word.read.isNotEmpty) ...[
@@ -737,9 +736,9 @@ class _CardBack extends StatelessWidget {
                     children: [
                       Text(
                         word.read,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 16,
-                          color: AppColors.accentSoft,
+                          color: context.colors.accentSoft,
                         ),
                       ),
                       if (tts != null) ...[
@@ -754,10 +753,10 @@ class _CardBack extends StatelessWidget {
                   Text(
                     word.meaning,
                     textAlign: TextAlign.center,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 22,
                       fontWeight: FontWeight.w800,
-                      color: AppColors.text,
+                      color: context.colors.text,
                       height: 1.3,
                     ),
                   ),
@@ -767,7 +766,7 @@ class _CardBack extends StatelessWidget {
                     width: double.infinity,
                     padding: const EdgeInsets.all(12),
                     decoration: BoxDecoration(
-                      color: AppColors.bg,
+                      color: context.colors.bg,
                       borderRadius: BorderRadius.circular(14),
                     ),
                     child: Column(
@@ -775,9 +774,9 @@ class _CardBack extends StatelessWidget {
                       children: [
                         Text(
                           word.exampleJp,
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 14,
-                            color: AppColors.text,
+                            color: context.colors.text,
                             height: 1.45,
                             fontWeight: FontWeight.w700,
                           ),
@@ -786,9 +785,9 @@ class _CardBack extends StatelessWidget {
                           const SizedBox(height: 4),
                           Text(
                             word.exampleRomaji,
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontSize: 12,
-                              color: AppColors.textHint,
+                              color: context.colors.textHint,
                               fontStyle: FontStyle.italic,
                             ),
                           ),
@@ -797,9 +796,9 @@ class _CardBack extends StatelessWidget {
                           const SizedBox(height: 4),
                           Text(
                             word.exampleMeaning,
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontSize: 12,
-                              color: AppColors.textMuted,
+                              color: context.colors.textMuted,
                               height: 1.35,
                             ),
                           ),
@@ -811,15 +810,18 @@ class _CardBack extends StatelessWidget {
 
                 const Spacer(),
 
-                const Icon(
+                Icon(
                   Icons.touch_app_rounded,
                   size: 20,
-                  color: AppColors.textHint,
+                  color: context.colors.textHint,
                 ),
                 const SizedBox(height: 4),
-                const Text(
+                Text(
                   'Ketuk untuk kembali',
-                  style: TextStyle(fontSize: 12, color: AppColors.textHint),
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: context.colors.textHint,
+                  ),
                 ),
               ],
             ),

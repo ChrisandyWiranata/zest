@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../core/layout/adaptive_layout.dart';
-import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/zest_colors.dart';
 import '../../../core/widgets/card_surface.dart';
 import '../../../core/widgets/search_field.dart';
 import '../../../core/widgets/speak_button.dart';
@@ -66,10 +66,10 @@ class _VocabListPageState extends State<VocabListPage> {
         ),
         Expanded(
           child: items.isEmpty
-              ? const Center(
+              ? Center(
                   child: Text(
                     'Tidak ada hasil.',
-                    style: TextStyle(color: AppColors.textMuted),
+                    style: TextStyle(color: context.colors.textMuted),
                   ),
                 )
               : isGrid
@@ -94,7 +94,7 @@ class _VocabListPageState extends State<VocabListPage> {
                   padding: const EdgeInsets.fromLTRB(20, 6, 20, 28),
                   itemCount: items.length,
                   separatorBuilder: (_, _) =>
-                      const Divider(color: AppColors.border, height: 1),
+                      Divider(color: context.colors.border, height: 1),
                   itemBuilder: (_, i) => _WordRow(
                     word: items[i],
                     hafal: widget.mastered.contains(items[i].masteryKey),
@@ -142,7 +142,7 @@ class _WordCard extends StatelessWidget {
                         word.read,
                         overflow: TextOverflow.ellipsis,
                         style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          color: AppColors.accentSoft,
+                          color: context.colors.accentSoft,
                           fontWeight: FontWeight.w600,
                         ),
                       ),
@@ -157,7 +157,7 @@ class _WordCard extends StatelessWidget {
                 Text(
                   word.readRomaji,
                   style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                    color: AppColors.textHint,
+                    color: context.colors.textHint,
                     fontStyle: FontStyle.italic,
                   ),
                 ),
@@ -165,10 +165,10 @@ class _WordCard extends StatelessWidget {
           ),
         ),
         if (hafal)
-          const Icon(
+          Icon(
             Icons.check_circle_rounded,
             size: 18,
-            color: AppColors.hafal,
+            color: context.colors.hafal,
           ),
       ],
     );
@@ -232,7 +232,7 @@ class _WordRow extends StatelessWidget {
                           overflow: TextOverflow.ellipsis,
                           style: Theme.of(context).textTheme.bodySmall
                               ?.copyWith(
-                                color: AppColors.accentSoft,
+                                color: context.colors.accentSoft,
                                 fontWeight: FontWeight.w600,
                               ),
                         ),
@@ -247,7 +247,7 @@ class _WordRow extends StatelessWidget {
                   Text(
                     word.readRomaji,
                     style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                      color: AppColors.textHint,
+                      color: context.colors.textHint,
                       fontStyle: FontStyle.italic,
                     ),
                   ),
@@ -267,19 +267,19 @@ class _WordRow extends StatelessWidget {
                     maxLines: 4,
                     textAlign: TextAlign.right,
                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      color: AppColors.text,
+                      color: context.colors.text,
                       height: 1.35,
                     ),
                   ),
                 if (hafal) ...[
                   const SizedBox(height: 6),
-                  const Row(
+                  Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Icon(
                         Icons.check_circle_rounded,
                         size: 16,
-                        color: AppColors.hafal,
+                        color: context.colors.hafal,
                       ),
                       SizedBox(width: 4),
                       Text(
@@ -287,7 +287,7 @@ class _WordRow extends StatelessWidget {
                         style: TextStyle(
                           fontSize: 11,
                           fontWeight: FontWeight.w700,
-                          color: AppColors.hafal,
+                          color: context.colors.hafal,
                         ),
                       ),
                     ],

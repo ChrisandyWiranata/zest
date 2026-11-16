@@ -151,10 +151,35 @@ No CI, no pre-commit, no linters beyond stock `flutter_lints`.
   domain Vercel), consent screen mode Testing → akun jadi Test user, Vercel `GOOGLE_AUDIENCES`
   memuat web client ID. People API tidak diperlukan.
 
+## Tema (terang / gelap / sistem)
+Warna TIDAK hardcoded. Semua token ada di `ZestColors extends ThemeExtension<ZestColors>`
+(`lib/core/theme/zest_colors.dart`) dengan dua palet statis: `ZestColors.dark` (identitas asli,
+**default**) dan `ZestColors.light`. Widget membacanya lewat extension `context.colors.<token>`
+— jangan tambahkan warna literal baru; tambahkan token ke `ZestColors` (dan ke `copyWith`/`lerp`).
+`AppTheme.dark()`/`AppTheme.light()` (`lib/core/theme/app_theme.dart`) membangun `ThemeData` dari
+palet itu (termasuk appBar/divider/tabBar/filledButton/snackBar/navigationBar/dialog) dan
+mendaftarkan palet sebagai `extensions: [c]`.
+- Mode disimpan di kunci **lintas-user** `app.theme.v1` oleh `ThemeController extends
+  ValueNotifier<ThemeMode>` (`lib/core/theme/theme_controller.dart`); dibaca/ditulis lewat
+  `setMode` (default `ThemeMode.dark` bila kunci kosong/rusak).
+- `ZestRoot` (di `lib/main.dart`) membuat satu `ThemeController(widget.prefs)`, membungkus
+  subtree dengan `ThemeScope` (InheritedNotifier) + `ValueListenableBuilder<ThemeMode>`, dan
+  menyalakan `theme: AppTheme.light(), darkTheme: AppTheme.dark(), themeMode: mode` di MaterialApp.
+- `ZestApp` membaca `ThemeScope.maybeOf(context)?.value ?? ThemeMode.dark`; **tanpa scope**
+  (test yang membangun `ZestApp` langsung) jatuh ke mode gelap — jadi copy test tidak berubah.
+- Pemilih tema = `_ThemeSelector` di `lib/features/settings/pages/settings_page.dart`
+  (bagian "Tampilan", key `theme-system`/`theme-light`/`theme-dark`), hanya tampil bila
+  `ThemeScope.maybeOf(context)` tidak null. Test: `_app(theme: controller)` di `test/widget_test.dart`.
+- Warna yang memang hardcoded dan **jangan** ditokenkan: tombol Google (putih + teks gelap,
+  branding), border hitam kotak logo, teks putih di atas video.
+- `flutter_lints` 6.0.0 tidak mengaktifkan `prefer_const_constructors`, jadi melepas `const`
+  di tempat yang butuh `context.colors` aman untuk `flutter analyze`.
+
 ## Local state (SharedPreferences, per-uid namespaces)
 Progress is stored per user under uid-prefixed keys — do not change without a migration plan.
-Dua kunci **lintas-user** (bukan per-uid, milik `UserSession`): `session.web.v1`
-(session token web) dan `session.native.v1` (profil mobile untuk home instan):
+Tiga kunci **lintas-user** (bukan per-uid): `session.web.v1` (session token web, milik
+`UserSession`), `session.native.v1` (profil mobile untuk home instan, milik `UserSession`),
+dan `app.theme.v1` (mode tema per-perangkat, milik `ThemeController`):
 `xp.$uid.*`, `srs.$uid.<category>.<id>`, `watched_video.$uid.<category>.<id>`,
 `resume_video.$uid.<category>.<id>`, `sync.$uid.last_at`, `settings.$uid.*` (`new_per_session`,
 `session_cap`, `daily_new_budget`, `auto_speak`, `first_review_days`, `interval_factor`,

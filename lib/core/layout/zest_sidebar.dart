@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../features/auth/models/app_user.dart';
 import '../../features/users/services/progress_sync.dart';
-import '../theme/app_colors.dart';
+import '../theme/zest_colors.dart';
 import '../widgets/motion.dart';
 
 /// Navigator kiri untuk layout lebar: logo, menu, dan kartu akun.
@@ -29,9 +29,11 @@ class ZestSidebar extends StatelessWidget {
       key: const Key('zest-sidebar'),
       width: 248,
       decoration: BoxDecoration(
-        color: AppColors.bg,
+        color: context.colors.bg,
         border: Border(
-          right: BorderSide(color: AppColors.border.withValues(alpha: 0.6)),
+          right: BorderSide(
+            color: context.colors.border.withValues(alpha: 0.6),
+          ),
         ),
       ),
       child: SafeArea(
@@ -97,7 +99,7 @@ class _ZestLogo extends StatelessWidget {
           width: 40,
           height: 40,
           decoration: BoxDecoration(
-            color: AppColors.card,
+            color: context.colors.card,
             borderRadius: BorderRadius.circular(12),
             border: Border.all(color: Colors.black),
           ),
@@ -106,13 +108,13 @@ class _ZestLogo extends StatelessWidget {
           child: Image.asset('assets/icon/logo-zest.png'),
         ),
         const SizedBox(width: 12),
-        const Text(
+        Text(
           'Zest',
           style: TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.w900,
             letterSpacing: 0.5,
-            color: AppColors.text,
+            color: context.colors.text,
           ),
         ),
       ],
@@ -138,7 +140,7 @@ class _NavItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = active ? AppColors.accent : AppColors.textMuted;
+    final color = active ? context.colors.accent : context.colors.textMuted;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 3),
       child: PressScale(
@@ -148,7 +150,7 @@ class _NavItem extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 11),
           decoration: BoxDecoration(
             color: active
-                ? AppColors.accent.withValues(alpha: 0.14)
+                ? context.colors.accent.withValues(alpha: 0.14)
                 : Colors.transparent,
             borderRadius: BorderRadius.circular(12),
           ),
@@ -161,7 +163,7 @@ class _NavItem extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 14,
                   fontWeight: active ? FontWeight.w800 : FontWeight.w600,
-                  color: active ? AppColors.text : color,
+                  color: active ? context.colors.text : color,
                 ),
               ),
             ],
@@ -186,15 +188,15 @@ class _UserCard extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
-          color: AppColors.card,
+          color: context.colors.card,
           borderRadius: BorderRadius.circular(14),
-          border: Border.all(color: AppColors.border),
+          border: Border.all(color: context.colors.border),
         ),
         child: Row(
           children: [
             CircleAvatar(
               radius: 18,
-              backgroundColor: AppColors.accent.withValues(alpha: 0.16),
+              backgroundColor: context.colors.accent.withValues(alpha: 0.16),
               backgroundImage: user.hasPhoto
                   ? NetworkImage(user.photoUrl)
                   : null,
@@ -202,10 +204,10 @@ class _UserCard extends StatelessWidget {
                   ? null
                   : Text(
                       user.initial,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontWeight: FontWeight.w800,
                         fontSize: 15,
-                        color: AppColors.accent,
+                        color: context.colors.accent,
                       ),
                     ),
             ),
@@ -218,10 +220,10 @@ class _UserCard extends StatelessWidget {
                     name,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 13,
                       fontWeight: FontWeight.w800,
-                      color: AppColors.text,
+                      color: context.colors.text,
                     ),
                   ),
                   const SizedBox(height: 1),
@@ -229,18 +231,18 @@ class _UserCard extends StatelessWidget {
                     user.email,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 11,
-                      color: AppColors.textMuted,
+                      color: context.colors.textMuted,
                     ),
                   ),
                 ],
               ),
             ),
-            const Icon(
+            Icon(
               Icons.chevron_right_rounded,
               size: 18,
-              color: AppColors.textHint,
+              color: context.colors.textHint,
             ),
           ],
         ),
@@ -262,27 +264,27 @@ class _SyncPill extends StatelessWidget {
         final (icon, color, label) = switch (status) {
           SyncStatus.syncing => (
             Icons.sync_rounded,
-            AppColors.accent,
+            context.colors.accent,
             'Menyinkronkan…',
           ),
           SyncStatus.synced => (
             Icons.cloud_done_outlined,
-            AppColors.hafal,
+            context.colors.hafal,
             'Sinkron',
           ),
           SyncStatus.error => (
             Icons.error_outline_rounded,
-            AppColors.belum,
+            context.colors.belum,
             'Sinkron gagal',
           ),
           SyncStatus.pending => (
             Icons.cloud_upload_outlined,
-            AppColors.textMuted,
+            context.colors.textMuted,
             'Menunggu sinkron',
           ),
           SyncStatus.idle => (
             Icons.cloud_outlined,
-            AppColors.textMuted,
+            context.colors.textMuted,
             'Belum sinkron',
           ),
         };

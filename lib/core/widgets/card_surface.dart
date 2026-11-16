@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../theme/app_colors.dart';
+import '../theme/zest_colors.dart';
 
 class CardSurface extends StatelessWidget {
   const CardSurface({
@@ -23,9 +23,9 @@ class CardSurface extends StatelessWidget {
     final box = Container(
       padding: padding,
       decoration: BoxDecoration(
-        color: color ?? AppColors.card,
+        color: color ?? context.colors.card,
         borderRadius: BorderRadius.circular(radius),
-        border: Border.all(color: AppColors.border),
+        border: Border.all(color: context.colors.border),
       ),
       child: child,
     );

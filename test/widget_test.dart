@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:zest/core/network/api_client.dart';
+import 'package:zest/core/theme/theme_controller.dart';
 import 'package:zest/core/utils/animations.dart';
 import 'package:zest/features/auth/models/app_user.dart';
 import 'package:zest/features/categories/models/category_detail.dart';
@@ -165,18 +166,23 @@ Widget _app({
   VoidCallback? onLogout,
   SettingsStore? settings,
   ProgressSync? sync,
-}) => ZestApp(
-  categoriesService: _FakeCategoriesService(),
-  vocabService: _FakeVocabService(),
-  videosService: _FakeVideosService(),
-  srsStore: _FakeSrsStore(),
-  xpStore: _FakeXpStore(),
-  videoProgressStore: _FakeVideoProgressStore(),
-  user: const AppUser(uid: 'u1', email: 'ana@x.com', displayName: 'Ana'),
-  onLogout: onLogout,
-  settings: settings,
-  sync: sync,
-);
+  ThemeController? theme,
+}) {
+  final app = ZestApp(
+    categoriesService: _FakeCategoriesService(),
+    vocabService: _FakeVocabService(),
+    videosService: _FakeVideosService(),
+    srsStore: _FakeSrsStore(),
+    xpStore: _FakeXpStore(),
+    videoProgressStore: _FakeVideoProgressStore(),
+    user: const AppUser(uid: 'u1', email: 'ana@x.com', displayName: 'Ana'),
+    onLogout: onLogout,
+    settings: settings,
+    sync: sync,
+  );
+  // Tanpa scope (mayoritas test) → ZestApp jatuh ke mode gelap seperti dulu.
+  return theme == null ? app : ThemeScope(controller: theme, child: app);
+}
 
 void main() {
   setUp(() => ambientEnabled = false);
@@ -531,6 +537,44 @@ void main() {
     await tester.pumpAndSettle();
     expect(settings.value.matureDays, 22);
     expect(find.text('22'), findsOneWidget);
+  });
+
+  testWidgets('Tema: pilih Terang mengubah themeMode & tersimpan', (
+    tester,
+  ) async {
+    SharedPreferences.setMockInitialValues({});
+    final prefs = await SharedPreferences.getInstance();
+    final settings = SettingsStore(prefs, 'u1');
+    await settings.load();
+    final theme = ThemeController(prefs);
+    addTearDown(theme.dispose);
+
+    await tester.pumpWidget(_app(settings: settings, theme: theme));
+    await tester.pumpAndSettle();
+
+    // Default identitas: gelap.
+    expect(
+      tester.widget<MaterialApp>(find.byType(MaterialApp)).themeMode,
+      ThemeMode.dark,
+    );
+
+    await tester.tap(find.text('Pengaturan'));
+    await tester.pumpAndSettle();
+
+    await tester.scrollUntilVisible(
+      find.byKey(const Key('theme-light')),
+      200,
+      scrollable: find.byType(Scrollable),
+    );
+    await tester.tap(find.byKey(const Key('theme-light')));
+    await tester.pumpAndSettle();
+
+    expect(
+      tester.widget<MaterialApp>(find.byType(MaterialApp)).themeMode,
+      ThemeMode.light,
+    );
+    expect(theme.value, ThemeMode.light);
+    expect(prefs.getString(ThemeController.storageKey), 'light');
   });
 
   testWidgets('Profil: tombol Sinkronkan progres tampil saat sync aktif', (

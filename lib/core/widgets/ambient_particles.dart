@@ -2,19 +2,16 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 
-import '../theme/app_colors.dart';
+import '../theme/zest_colors.dart';
 import '../utils/animations.dart';
 
 /// Partikel ambient yang melayang pelan di latar (bokeh redup). Mengisi parent
 /// dan diam saat `MediaQuery.disableAnimations`.
 class AmbientParticles extends StatefulWidget {
-  const AmbientParticles({
-    super.key,
-    this.color = AppColors.accent,
-    this.count = 18,
-  });
+  const AmbientParticles({super.key, this.color, this.count = 18});
 
-  final Color color;
+  /// Warna partikel; `null` → aksen tema aktif.
+  final Color? color;
   final int count;
 
   @override
@@ -64,7 +61,7 @@ class _AmbientParticlesState extends State<AmbientParticles>
           painter: _ParticlesPainter(
             t: _ctrl.value,
             static: _static,
-            color: widget.color,
+            color: widget.color ?? context.colors.accent,
             count: widget.count,
           ),
         ),
@@ -114,5 +111,8 @@ class _ParticlesPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(covariant _ParticlesPainter old) =>
-      old.t != t || old.static != static || old.count != count;
+      old.t != t ||
+      old.static != static ||
+      old.count != count ||
+      old.color != color;
 }

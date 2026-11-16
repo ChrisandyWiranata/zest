@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'card_surface.dart';
-import '../theme/app_colors.dart';
+import '../theme/zest_colors.dart';
 
 class ErrorView extends StatelessWidget {
   const ErrorView({super.key, required this.message, required this.onRetry});
@@ -18,16 +18,16 @@ class ErrorView extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Icon(
+              Icon(
                 Icons.inbox_rounded,
                 size: 36,
-                color: AppColors.textHint,
+                color: context.colors.textHint,
               ),
               const SizedBox(height: 12),
               Text(
                 message,
                 textAlign: TextAlign.center,
-                style: const TextStyle(color: AppColors.textMuted),
+                style: TextStyle(color: context.colors.textMuted),
               ),
               const SizedBox(height: 14),
               FilledButton.tonal(

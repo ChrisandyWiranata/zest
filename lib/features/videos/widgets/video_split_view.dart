@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/zest_colors.dart';
 import '../../../core/widgets/error_view.dart';
 import '../../../core/widgets/loading_indicator.dart';
 import '../../users/services/progress_sync.dart';
@@ -176,7 +176,7 @@ class _VideoSplitViewState extends State<VideoSplitView> {
                     section.bab,
                     style: Theme.of(context).textTheme.titleSmall?.copyWith(
                       fontWeight: FontWeight.w800,
-                      color: AppColors.textMuted,
+                      color: context.colors.textMuted,
                     ),
                   ),
                 ),
@@ -204,16 +204,16 @@ class _VideoSplitViewState extends State<VideoSplitView> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(
+            Icon(
               Icons.play_circle_outline_rounded,
               size: 56,
-              color: AppColors.textHint,
+              color: context.colors.textHint,
             ),
             const SizedBox(height: 12),
             Text(
               'Pilih video untuk mulai menonton',
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                color: AppColors.textMuted,
+                color: context.colors.textMuted,
                 fontWeight: FontWeight.w700,
               ),
             ),
@@ -301,10 +301,10 @@ class _SidebarVideoTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final titleColor = selected ? AppColors.accent : AppColors.text;
+    final titleColor = selected ? context.colors.accent : context.colors.text;
     return Material(
       color: selected
-          ? AppColors.accent.withValues(alpha: 0.10)
+          ? context.colors.accent.withValues(alpha: 0.10)
           : Colors.transparent,
       borderRadius: BorderRadius.circular(10),
       child: InkWell(
@@ -317,7 +317,7 @@ class _SidebarVideoTile extends StatelessWidget {
                   border: Border(
                     left: BorderSide(
                       width: 3,
-                      color: AppColors.accent.withValues(alpha: 0.8),
+                      color: context.colors.accent.withValues(alpha: 0.8),
                     ),
                   ),
                 )
@@ -329,15 +329,15 @@ class _SidebarVideoTile extends StatelessWidget {
                 height: 30,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: AppColors.accent.withValues(alpha: 0.14),
+                  color: context.colors.accent.withValues(alpha: 0.14),
                   border: Border.all(
-                    color: AppColors.accent.withValues(alpha: 0.35),
+                    color: context.colors.accent.withValues(alpha: 0.35),
                   ),
                 ),
                 alignment: Alignment.center,
-                child: const Icon(
+                child: Icon(
                   Icons.play_arrow_rounded,
-                  color: AppColors.accent,
+                  color: context.colors.accent,
                   size: 18,
                 ),
               ),
@@ -368,18 +368,18 @@ class _SidebarVideoTile extends StatelessWidget {
               ),
               const SizedBox(width: 6),
               if (watched)
-                const Icon(
+                Icon(
                   Icons.check_circle_rounded,
                   size: 17,
-                  color: AppColors.hafal,
+                  color: context.colors.hafal,
                 )
               else if (resumed)
-                const Tooltip(
+                Tooltip(
                   message: 'Lanjut menonton',
                   child: Icon(
                     Icons.play_circle_outline_rounded,
                     size: 17,
-                    color: AppColors.accent,
+                    color: context.colors.accent,
                   ),
                 ),
             ],
@@ -398,7 +398,7 @@ class _SidebarTypeBadge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = grammar ? AppColors.accent : AppColors.textMuted;
+    final color = grammar ? context.colors.accent : context.colors.textMuted;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2),
       decoration: BoxDecoration(

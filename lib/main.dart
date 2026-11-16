@@ -8,8 +8,9 @@ import 'config/tts_config.dart';
 import 'core/layout/adaptive_layout.dart';
 import 'core/layout/zest_sidebar.dart';
 import 'core/network/api_client.dart';
-import 'core/theme/app_colors.dart';
 import 'core/theme/app_theme.dart';
+import 'core/theme/theme_controller.dart';
+import 'core/theme/zest_colors.dart';
 import 'features/auth/models/app_user.dart';
 import 'features/auth/pages/login_page.dart';
 import 'features/auth/services/google_auth_service.dart';
@@ -82,8 +83,9 @@ Future<void> loadDotEnv() async {
   }
 }
 
-/// Akar aplikasi: menahan LoginPage sampai [UserSession] punya user.
-class ZestRoot extends StatelessWidget {
+/// Akar aplikasi: menahan LoginPage sampai [UserSession] punya user, dan
+/// menyediakan [ThemeController] (mode terang/gelap/sistem) ke seluruh subtree.
+class ZestRoot extends StatefulWidget {
   const ZestRoot({
     super.key,
     required this.prefs,
@@ -102,39 +104,60 @@ class ZestRoot extends StatelessWidget {
   final TtsService? tts;
 
   @override
-  Widget build(BuildContext context) {
-    final theme = AppTheme.dark();
-    return ValueListenableBuilder<AppUser?>(
-      valueListenable: session,
-      builder: (context, user, _) {
-        if (user == null) {
-          return MaterialApp(
-            title: 'Zest',
-            debugShowCheckedModeBanner: false,
-            theme: theme,
-            home: LoginPage(session: session),
-          );
-        }
+  State<ZestRoot> createState() => _ZestRootState();
+}
 
-        final uid = user.uid;
-        final repo = session.repo;
-        final settings = SettingsStore(prefs, uid);
-        settings.load();
-        return ZestApp(
-          key: ValueKey(uid),
-          user: user,
-          sync: ProgressSync(uid, repo, prefs),
-          onLogout: () => session.logout(),
-          categoriesService: categoriesService,
-          vocabService: vocabService,
-          videosService: videosService,
-          srsStore: SrsStore(prefs, uid),
-          xpStore: XpStore(prefs, uid),
-          videoProgressStore: VideoProgressStore(prefs, uid),
-          settings: settings,
-          tts: tts,
-        );
-      },
+class _ZestRootState extends State<ZestRoot> {
+  late final ThemeController _theme = ThemeController(widget.prefs);
+
+  @override
+  void dispose() {
+    _theme.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final session = widget.session;
+    return ValueListenableBuilder<ThemeMode>(
+      valueListenable: _theme,
+      builder: (context, mode, _) => ThemeScope(
+        controller: _theme,
+        child: ValueListenableBuilder<AppUser?>(
+          valueListenable: session,
+          builder: (context, user, _) {
+            if (user == null) {
+              return MaterialApp(
+                title: 'Zest',
+                debugShowCheckedModeBanner: false,
+                theme: AppTheme.light(),
+                darkTheme: AppTheme.dark(),
+                themeMode: mode,
+                home: LoginPage(session: session),
+              );
+            }
+
+            final uid = user.uid;
+            final repo = session.repo;
+            final settings = SettingsStore(widget.prefs, uid);
+            settings.load();
+            return ZestApp(
+              key: ValueKey(uid),
+              user: user,
+              sync: ProgressSync(uid, repo, widget.prefs),
+              onLogout: () => session.logout(),
+              categoriesService: widget.categoriesService,
+              vocabService: widget.vocabService,
+              videosService: widget.videosService,
+              srsStore: SrsStore(widget.prefs, uid),
+              xpStore: XpStore(widget.prefs, uid),
+              videoProgressStore: VideoProgressStore(widget.prefs, uid),
+              settings: settings,
+              tts: widget.tts,
+            );
+          },
+        ),
+      ),
     );
   }
 }
@@ -169,6 +192,10 @@ class ZestApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Di produksi [ThemeScope] ada di atas (dari ZestRoot). Di test yang
+    // membangun ZestApp langsung tanpa scope, mode jatuh ke gelap (identitas asli).
+    final mode = ThemeScope.maybeOf(context)?.value ?? ThemeMode.dark;
+
     Widget home = AppShell(
       user: user,
       sync: sync,
@@ -186,7 +213,9 @@ class ZestApp extends StatelessWidget {
     return MaterialApp(
       title: 'Zest',
       debugShowCheckedModeBanner: false,
-      theme: AppTheme.dark(),
+      theme: AppTheme.light(),
+      darkTheme: AppTheme.dark(),
+      themeMode: mode,
       home: home,
     );
   }
@@ -320,16 +349,16 @@ class _AppShellState extends State<AppShell> with WidgetsBindingObserver {
           ? null
           : Container(
               decoration: BoxDecoration(
-                color: AppColors.bg,
+                color: context.colors.bg,
                 border: Border(
                   top: BorderSide(
-                    color: AppColors.border.withValues(alpha: 0.6),
+                    color: context.colors.border.withValues(alpha: 0.6),
                   ),
                 ),
               ),
               child: NavigationBar(
-                backgroundColor: AppColors.bg,
-                indicatorColor: AppColors.accent.withValues(alpha: 0.16),
+                backgroundColor: context.colors.bg,
+                indicatorColor: context.colors.accent.withValues(alpha: 0.16),
                 selectedIndex: _index,
                 onDestinationSelected: _setTab,
                 destinations: [

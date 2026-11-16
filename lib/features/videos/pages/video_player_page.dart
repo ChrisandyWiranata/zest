@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 import '../../../core/layout/adaptive_layout.dart';
-import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/zest_colors.dart';
 import '../../../core/widgets/network_video_player.dart';
 import '../../users/services/progress_sync.dart';
 import '../models/video_item.dart';
@@ -33,7 +33,7 @@ class VideoPlayerPage extends StatelessWidget {
       sync: sync,
     );
     return Scaffold(
-      backgroundColor: AppColors.bgBase,
+      backgroundColor: context.colors.bgBase,
       body: SafeArea(
         child: AdaptiveLayout.isWide(context)
             ? Center(
@@ -205,8 +205,8 @@ class _VideoPlayerViewState extends State<VideoPlayerView> {
                       : '${widget.video.bab} · ${widget.video.displayTitle}',
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                    color: AppColors.text,
+                  style: TextStyle(
+                    color: context.colors.text,
                     fontWeight: FontWeight.w700,
                     fontSize: 14,
                   ),
@@ -229,8 +229,8 @@ class _VideoPlayerViewState extends State<VideoPlayerView> {
                 Text(
                   widget.video.displayTitle,
                   textAlign: TextAlign.center,
-                  style: const TextStyle(
-                    color: AppColors.text,
+                  style: TextStyle(
+                    color: context.colors.text,
                     fontWeight: FontWeight.w800,
                     fontSize: 16,
                   ),
@@ -243,14 +243,14 @@ class _VideoPlayerViewState extends State<VideoPlayerView> {
                       icon: Icons.label_outline_rounded,
                       label: widget.video.typeBadge,
                       color: widget.video.isGrammar
-                          ? AppColors.accent
-                          : AppColors.textMuted,
+                          ? context.colors.accent
+                          : context.colors.textMuted,
                     ),
                     if (widget.video.bab.isNotEmpty)
                       _MetaChip(
                         icon: Icons.article_outlined,
                         label: widget.video.bab,
-                        color: AppColors.textMuted,
+                        color: context.colors.textMuted,
                       ),
                   ],
                 ),
@@ -264,13 +264,13 @@ class _VideoPlayerViewState extends State<VideoPlayerView> {
                     ),
                     decoration: BoxDecoration(
                       color: watched
-                          ? AppColors.hafal.withValues(alpha: 0.14)
-                          : AppColors.card,
+                          ? context.colors.hafal.withValues(alpha: 0.14)
+                          : context.colors.card,
                       borderRadius: BorderRadius.circular(14),
                       border: Border.all(
                         color: watched
-                            ? AppColors.hafal.withValues(alpha: 0.5)
-                            : AppColors.border,
+                            ? context.colors.hafal.withValues(alpha: 0.5)
+                            : context.colors.border,
                       ),
                     ),
                     child: Row(
@@ -282,8 +282,8 @@ class _VideoPlayerViewState extends State<VideoPlayerView> {
                               : Icons.radio_button_unchecked,
                           size: 20,
                           color: watched
-                              ? AppColors.hafal
-                              : AppColors.textMuted,
+                              ? context.colors.hafal
+                              : context.colors.textMuted,
                         ),
                         const SizedBox(width: 8),
                         Text(
@@ -291,7 +291,9 @@ class _VideoPlayerViewState extends State<VideoPlayerView> {
                           style: TextStyle(
                             fontSize: 13.5,
                             fontWeight: FontWeight.w700,
-                            color: watched ? AppColors.hafal : AppColors.text,
+                            color: watched
+                                ? context.colors.hafal
+                                : context.colors.text,
                           ),
                         ),
                       ],

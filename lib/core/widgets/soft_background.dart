@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../theme/app_colors.dart';
+import '../theme/zest_colors.dart';
 
 class SoftBackground extends StatelessWidget {
   const SoftBackground({super.key, required this.child});
@@ -9,6 +9,6 @@ class SoftBackground extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ColoredBox(color: AppColors.bgBase, child: child);
+    return ColoredBox(color: context.colors.bgBase, child: child);
   }
 }
